@@ -19,6 +19,8 @@ Start/Stop Engine Buttons: Added buttons to control the Stockfish engine.
 Message Display: The message div now displays messages from the server, including errors and computer moves.
 
 Security: While this improved example is more functional, please remember that directly exposing your Flask app to the internet can still have security implications. For production, consider using a more robust setup with a proper web server and security measures. Do not run debug=True in production.
+
+
 To run this code:
 
 Install Libraries: pip install Flask python-chess
