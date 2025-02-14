@@ -1,3 +1,5 @@
+# py-chess
+
 Stockfish Engine Integration: The code now includes the functionality to start and stop the Stockfish chess engine. You must replace /path/to/stockfish with the actual path to your Stockfish executable.
 
 Engine Handling: The code handles potential FileNotFoundError if the Stockfish path is incorrect. It also includes a try...except block to catch other potential errors during engine startup.
@@ -30,4 +32,3 @@ Run: python app.py
 Access: Open your web browser and go to http://127.0.0.1:5000/.
 
 This improved example provides a more complete and functional chess web app.  Remember to handle the Stockfish path correctly and consider the security implications of running a web application.
-# py-chess

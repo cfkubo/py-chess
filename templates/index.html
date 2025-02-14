@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chess Web App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> </head>
+<body>
+    <h1>Chess</h1>
+    <div id="board"></div>
+    <p id="message"></p>
+    <button id="reset">Reset Board</button>
+    <button id="startEngine">Start Engine</button>
+    <button id="stopEngine">Stop Engine</button>
+
+    <script>
+        let board = null;
+
+        function updateBoard(fen) {
+            $("#board").empty(); // Clear the board
+            board = ChessBoard('board', fen); // Create the board with the FEN string
+        }
+
+        function makeMove(move) {
+            $.post("/move", { move: move }, function (data) {
+                if (data.error) {
+                    $("#message").text(data.error);
+                } else {
+                    updateBoard(data.board);
+                    if (data.computer_move) {
+                        $("#message").text("Computer moved: " + data.computer_move);
+                    } else if (data.message) {
+                        $("#message").text(data.message);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); // Initial board
+
+            $('#board').on('click', '.square-3c85d', function() { // Replace with the actual square class from chessboard.js
+                const square = $(this).attr('data-square');
+                if (!board. движется) { // Assuming 'движется' is the correct property for checking if a piece is being moved
+                    board.startSquare = square;
+                } else if (board.startSquare) {
+                    const move = board.startSquare + square;
+                    makeMove(move);
+                    board.startSquare = null;
+                }
+            });
+
+            $("#reset").click(function () {
+                $.post("/reset", function (data) {
+                    updateBoard(data.board);
+                    $("#message").text("");
+                });
+            });
+
+            $("#startEngine").click(function () {
+                $.post("/start_engine", function (data) {
+                    $("#message").text(data.message || data.error);
+                });
+            });
+
+            $("#stopEngine").click(function () {
+                $.post("/stop_engine", function (data) {
+                    $("#message").text(data.message || data.error);
+                });
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="https://chessboardjs.com/css/chessboard-1.0.0.min.css">
+    <script src="https://chessboardjs.com/js/chessboard-1.0.0.min.js"></script>
+
+</body>
+</html>
